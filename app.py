@@ -1,21 +1,45 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, abort
+import os
+import zipfile
+from convert_to_wp import main
 
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__)
+    UPLOAD_FOLDER = '/uploads'
+    ALLOWED_EXTENSIONS = {'zip'}
 
+    app = Flask(__name__)
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     # Routes
     # -----------------------------------------------------------------
     # Endpoint: GET /
-    # Description: Gets recent and suggested posts.
-    # Parameters: None.
-    # Authorization: None.
+    # Description: Returns the upload form.
     @app.route('/')
     def index():
-        return 'in'
+        return render_template('upload.html')
 
+    # Endpoint: POST /
+    # Description: Upload the backup.
+    @app.route('/', methods=['POST'])
+    def upload_backup():
+        uploaded_backup = request.form.get('fileUpload')
+        file_extension = uploaded_backup.filename.rsplit('.', 1)[1].lower()
+
+        # If the uploaded file is a ZIP file, unzip it and run the
+        # script to convert it to a Wordpress XML.
+        if file_extension in ALLOWED_EXTENSIONS:
+            uploaded_backup.save(os.path.join(app.config['UPLOAD_FOLDER'],
+                                 uploaded_backup.filename))
+            file_path = 'uploads/' + uploaded_backup.filename
+            with zipfile.ZipFile(file_path) as file:
+                file.extractall('./uploads')
+            os.remove(file_path)
+            main()
+        # Otherwise abort
+        else:
+            abort(400)
 
     # Error Handlers
     # -----------------------------------------------------------------
