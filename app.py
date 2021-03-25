@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, abort
+from flask import Flask, render_template, jsonify, abort, request
 import os
 import zipfile
 from convert_to_wp import main
@@ -6,7 +6,7 @@ from convert_to_wp import main
 
 def create_app(test_config=None):
     # create and configure the app
-    UPLOAD_FOLDER = '/uploads'
+    UPLOAD_FOLDER = './uploads'
     ALLOWED_EXTENSIONS = {'zip'}
 
     app = Flask(__name__)
@@ -24,7 +24,7 @@ def create_app(test_config=None):
     # Description: Upload the backup.
     @app.route('/', methods=['POST'])
     def upload_backup():
-        uploaded_backup = request.form.get('fileUpload')
+        uploaded_backup = request.files['fileUpload']
         file_extension = uploaded_backup.filename.rsplit('.', 1)[1].lower()
 
         # If the uploaded file is a ZIP file, unzip it and run the
