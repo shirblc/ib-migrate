@@ -1,0 +1,21 @@
+<!doctype html>
+<html dir="rtl">
+	<head>
+		<meta charset="UTF-8">
+		<title>Israblog Migrate</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/mainpage.css') }}" >
+	</head>
+
+	<body>
+		<h1 id="mainTitle">המרת גיבוי ישראבלוג לוורדפרס</h1>
+		<div id="appBody">
+        <div>
+          לחצו כאן כדי להוריד את הקובץ שלכם!
+        </div>
+        <div>
+          <a href="{{ url_for('download_file') }}" download>Download</a>
+        </div>
+		</div>
+	</body>
+</html>

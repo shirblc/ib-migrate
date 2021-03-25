@@ -1,4 +1,13 @@
-from flask import Flask, render_template, jsonify, abort, request
+from flask import (
+                   Flask,
+                   render_template,
+                   jsonify,
+                   abort,
+                   request,
+                   redirect,
+                   url_for,
+                   send_file
+                  )
 import os
 import zipfile
 from convert_to_wp import main
@@ -16,12 +25,14 @@ def create_app(test_config=None):
     # -----------------------------------------------------------------
     # Endpoint: GET /
     # Description: Returns the upload form.
+    # Template rendering
     @app.route('/')
     def index():
         return render_template('upload.html')
 
     # Endpoint: POST /
     # Description: Upload the backup.
+    # Uploading the file and redirecting
     @app.route('/', methods=['POST'])
     def upload_backup():
         uploaded_backup = request.files['fileUpload']
@@ -40,6 +51,22 @@ def create_app(test_config=None):
         # Otherwise abort
         else:
             abort(400)
+
+        return redirect(url_for('download_form'))
+
+    # Endpoint: GET /download
+    # Description: Download the XML.
+    # Template rendering
+    @app.route('/download', methods=['GET'])
+    def download_form():
+        return render_template('download.html')
+
+    # Endpoint: GET /download-file
+    # Description: Download the XML.
+    # Sending the download file
+    @app.route('/download-file', methods=['GET'])
+    def download_file():
+        return send_file(os.path.join(app.config['UPLOAD_FOLDER'], 'blog.xml'))
 
     # Error Handlers
     # -----------------------------------------------------------------
