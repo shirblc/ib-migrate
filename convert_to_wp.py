@@ -19,7 +19,7 @@ from convert import (
                     get_backup_files
                     )
 
-BACKUP_FOLDER = './isra'
+BACKUP_FOLDER = './uploads'
 TEMPLATE_FILE = 'template.html'
 OUTPUT_FORMAT = 'xml'
 OUTPUT_FILENAME = os.path.join(BACKUP_FOLDER, 'blog.' + OUTPUT_FORMAT)
