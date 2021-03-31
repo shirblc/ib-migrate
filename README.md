@@ -1,8 +1,6 @@
-# Israblog Backup
+# Israblog Migration to Wordpress
 
-## Version
-
-Version 12.4.
+This is the online-deployed version of the original [Israblog backup repo](https://github.com/eliramk/israblog). It's almost entirely based on the original repo and the work done by [Eliram](https://github.com/eliramk), with a few modifications made by [Shir](https://github.com/shirblc) to create the Wordpress-style XML.
 
 ## Requirements
 
@@ -10,27 +8,29 @@ Version 12.4.
 
 ## Installation and Usage (Source directory!)
 
-1. Save your Israblog backup (in accordance with the main [README](https://github.com/shirblc/israblog/blob/master/README.md)).
-2. Download or clone the repo.
+1. Download or clone the repo.
 3. cd into the project directory.
-4. cd into src.
-5. Run ```pip install -r requirements.txt``` to install dependencies (they're necessary for the Wordpress conversion).
-6. Update the ```BACKUP_FOLDER``` constant to the location of your downloaded backup.
-  - If you want to use the Wordpress converter, do it in the [convert_to_wp file](https://github.com/shirblc/israblog/blob/master/src/convert_to_wp.py).
-  - Otherwise, do it in the [convert file](https://github.com/shirblc/israblog/blob/master/src/convert.py).
-7. Run the script:
-  - If using the Wordpress converter, run ```python convert_to_wp.py``` (run ```python3 convert_to_wp.py``` if you're on macOS).
-  - If using the regular converter, run ```python convert.py``` (run ```python3 convert.py``` if you're on macOS).
+4. Run ```pip install -r requirements.txt``` to install dependencies (they're necessary for the Wordpress conversion).
+5. Run flask with:
+    - ```export FLASK_APP=app.py```
+    - ```export FLASK_ENV=development``` (Recommended)
+    - ```flask run```
+7. Save your backup file in accordance with the instructions, upload it and download the newly converted file.
 
 ## Contents
 
-1. **convert.py** - Converts the Israblog HTML backup into XML/JSON.
-2. **convert_to_wp.py** - Converts the Israblog HTML backup into a Wordpress XML.
-3. **download_blog_posts.py** - Crawls over the given blog and saves its posts.
+1. **app.py** - The app file (runs on Flask).
+2. **convert.py** - Converts the Israblog HTML backup into XML/JSON.
+3. **convert_to_wp.py** - Converts the Israblog HTML backup into a Wordpress XML.
+4. **templates** - Folder that contains the two HTML templates required for the deployed version.
+5. **static** - Folder that contains the static client-side files, such as JavaScript and CSS files.
+6. **uploads** - A placeholder folder to contain all file uploads.
 
 ## Dependencies
 
 1. **pytz** - A timezone utility for Python. For more information, check their [PyPI page](https://pypi.org/project/pytz/).
+2. **flask** - Flask is a Python microframework used to build and run the local server on which the app is running. For full Flask documentation, try the [Flask website](https://flask.palletsprojects.com/en/1.1.x/).
+3. **gunicorn** - A Python WSGI HTTP Server for UNIX. For more information, check their [website](https://gunicorn.org).
 
 ## Known Issues
 
