@@ -11,7 +11,9 @@ from flask import (
 import os
 import zipfile
 import random
+import shutil
 from pathlib import Path
+from threading import Timer
 from convert_to_wp import main
 
 
@@ -74,6 +76,26 @@ def create_app(test_config=None):
     def download_file(backup_dir):
         return send_file(os.path.join(app.config['UPLOAD_FOLDER'], backup_dir,
                                       'blog.xml'))
+
+    # Endpoint: DELETE /backup/<backup_dir>
+    # Description: Delete the backup data and the generated XML.
+    # Deleting the backup files
+    @app.route('/backup/<backup_dir>', methods=['DELETE'])
+    def delete_folder(backup_dir):
+        directory_path = os.path.join(app.config['UPLOAD_FOLDER'],
+                                      backup_dir)
+
+        # Delete the relevant folder
+        def remove_folder():
+            shutil.rmtree(directory_path)
+
+        # Start the timer to delete the folder after 10 minutes
+        timer = Timer(600.0, remove_folder)
+        timer.start()
+
+        return jsonify({
+            'success': True
+        })
 
     # Error Handlers
     # -----------------------------------------------------------------
