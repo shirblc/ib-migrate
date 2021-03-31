@@ -373,7 +373,10 @@ def save_parsed_data(parsed_data):
         output_file.write('\n</channel>\n</rss>\n')
 
 
-def main():
+def main(backup_folder):
+    global BACKUP_FOLDER, OUTPUT_FILENAME
+    BACKUP_FOLDER = backup_folder
+    OUTPUT_FILENAME = os.path.join(backup_folder, 'blog.' + OUTPUT_FORMAT)
     backup_files_list = get_backup_files(BACKUP_FOLDER)
     parsed_data = parse_backup_files(backup_files_list)
     save_parsed_data(parsed_data)

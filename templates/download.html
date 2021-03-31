@@ -14,7 +14,7 @@
           לחצו כאן כדי להוריד את הקובץ שלכם!
         </div>
         <div>
-          <a href="{{ url_for('download_file') }}" download>Download</a>
+          <a href="{{ url_for('download_file', backup_dir=backup_dir) }}" download>Download</a>
         </div>
 		</div>
 	</body>

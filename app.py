@@ -10,6 +10,8 @@ from flask import (
                   )
 import os
 import zipfile
+import random
+from pathlib import Path
 from convert_to_wp import main
 
 
@@ -37,6 +39,7 @@ def create_app(test_config=None):
     def upload_backup():
         uploaded_backup = request.files['fileUpload']
         file_extension = uploaded_backup.filename.rsplit('.', 1)[1].lower()
+        directory = str(random.randint(1000000,9999999))
 
         # If the uploaded file is a ZIP file, unzip it and run the
         # script to convert it to a Wordpress XML.
@@ -45,28 +48,32 @@ def create_app(test_config=None):
                                  uploaded_backup.filename))
             file_path = 'uploads/' + uploaded_backup.filename
             with zipfile.ZipFile(file_path) as file:
-                file.extractall('./uploads')
+                directory_path = os.path.join(app.config['UPLOAD_FOLDER'],
+                                              directory)
+                Path(directory_path).mkdir(parents=True)
+                file.extractall(directory_path)
             os.remove(file_path)
-            main()
+            main(directory_path)
         # Otherwise abort
         else:
             abort(400)
 
-        return redirect(url_for('download_form'))
+        return redirect(url_for('download_form', backup_dir=directory))
 
     # Endpoint: GET /download
     # Description: Download the XML.
     # Template rendering
-    @app.route('/download', methods=['GET'])
-    def download_form():
-        return render_template('download.html')
+    @app.route('/download/<backup_dir>', methods=['GET'])
+    def download_form(backup_dir):
+        return render_template('download.html', backup_dir=backup_dir)
 
     # Endpoint: GET /download-file
     # Description: Download the XML.
     # Sending the download file
-    @app.route('/download-file', methods=['GET'])
-    def download_file():
-        return send_file(os.path.join(app.config['UPLOAD_FOLDER'], 'blog.xml'))
+    @app.route('/download-file/<backup_dir>', methods=['GET'])
+    def download_file(backup_dir):
+        return send_file(os.path.join(app.config['UPLOAD_FOLDER'], backup_dir,
+                                      'blog.xml'))
 
     # Error Handlers
     # -----------------------------------------------------------------
