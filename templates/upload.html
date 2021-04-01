@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>Israblog Migrate</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/mainpage.css') }}" >
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}" >
 	</head>
 
 	<body>
@@ -21,14 +21,14 @@
         </ol>
       </div>
 			<!-- Upload backup form -->
-      <h2>העלאה:</h2>
-      <form method="post" enctype="multipart/form-data">
+      <h2 id="formTitle">העלאה:</h2>
+      <form method="post" enctype="multipart/form-data" id="uploadForm">
         <div>
-          <label for="fileUpload">בחרו קובץ ZIP להעלות.</label>
+          <label for="fileUpload" id="uploadLabel">בחרו קובץ ZIP להעלות:</label>
           <input type="file" id="fileUpload" name="fileUpload">
         </div>
         <div>
-          <input type="submit" value="Upload">
+          <input type="submit" value="העלאה" class="appButton">
         </div>
       </form>
 		</div>

@@ -1,0 +1,83 @@
+/* =========================== General Styling =========================== */
+/* Main Title */
+#mainTitle {
+	text-align: center;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+/* App area */
+#appBody {
+	width: 80%;
+	padding: 10px 5%;
+	margin: 0 5%;
+}
+
+/* An app button */
+.appButton {
+	margin: 10px;
+	border-radius: 2px;
+	border-width: thin;
+	border-style: outset;
+	padding: 2px 4px;
+	background-color: rgb(239, 239, 239);
+	border-color: black;
+	text-decoration-line: none;
+	color: black;
+	font-size: 1rem;
+}
+
+/* =========================== Upload Page =========================== */
+/* Upload form title */
+#formTitle {
+	padding-top: 10px;
+	text-align: center;
+}
+
+/* Upload form */
+#uploadForm {
+	text-align: center;
+}
+
+/* Upload input label (line break after the label) */
+#uploadLabel:after {
+	content:"\a";
+    white-space: pre;
+}
+
+/* Upload file input */
+#fileUpload {
+	padding: 10px 80px 10px 0;
+	margin: 0;
+}
+
+/* =========================== Download Page =========================== */
+/* Download page body */
+#downloadBody {
+	text-align: center;
+}
+
+/* Download page text */
+.downloadText {
+	padding: 10px;
+	margin: 5px;
+}
+
+/* Download button container */
+#buttonContainer {
+	margin-top: 15px;
+}
+
+
+/* =========================== Responsive styling =========================== */
+@media screen and (max-width: 280px) {
+	#fileUpload {
+		padding: 10px 0;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	#fileUpload {
+		padding: 10px 40px 10px 0;
+	}
+}
